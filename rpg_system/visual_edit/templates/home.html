@@ -1,0 +1,71 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <!-- 将流程图的HTML代码插入到页面中 -->
+    <div style="text-align: center;">
+        {{ graph_html|safe }}
+    </div>
+    <div class="mb-4" style="text-align: center;">
+        <button id="saveButton" class="btn btn-primary btn-lg" style="font-size: 1.3rem; padding: 1rem 2rem; display: inline-block; margin-left: 15px;" onclick="sendPostAndRedirect()">
+            保存当前文件
+        </button>
+    </div>
+    <script>
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', () => {
+                // 获取当前节点相连的后续节点的 <title>
+                const EdgeTitles = getEdgeTitles();
+
+                // 准备 POST 请求的数据
+                const postData = {
+                    EdgeTitles: EdgeTitles
+                };
+
+                // 发送 POST 请求
+                fetch(`/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(postData)
+                });
+
+        });
+        // 函数：获取当前节点相连的后续节点的 <title>
+        function getEdgeTitles() {
+            const result = [];
+            const edges = document.querySelectorAll('.edge');
+
+            edges.forEach(edge => {
+                const edgeTitle = edge.querySelector('title').textContent; // 获取边的 <title>
+                result.push(edgeTitle);
+
+            });
+            return result;
+        }
+        document.querySelectorAll('.node').forEach(node => {
+            // 获取节点的 <title> 标签的文本内容
+            const nodeTitle = node.querySelector('title').textContent;
+            node.addEventListener('click', (event) => {
+                event.preventDefault(); // 阻止默认事件
+                // 跳转到以 <title> 名为路径的网页
+                window.location.href = `/${nodeTitle}`;
+            });
+        });
+        function sendPostAndRedirect() {
+            // 创建一个新的 FormData 对象
+            var formData = new FormData();
+            // 添加需要发送的数据，例如可以添加一个 key-value 对
+            formData.append('action', 'button_click');
+
+            fetch(window.location.href, {
+                    method: 'POST',
+                    body: new FormData()
+                })
+            .catch(error => {
+                    console.error('Error:', error);
+                    alert('操作失败，请重试');
+                });
+        }
+    </script>
+{% endblock %}

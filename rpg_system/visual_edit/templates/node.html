@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <pre>{{ node_content }}</pre>
+    <div>
+        {% for key, value in edge.items() %}
+            <div>
+                <!-- 调用 JavaScript 函数来处理点击事件 -->
+                <button style="text-align: left;" onclick="showAlertAndRedirect('/{{ key }}')">
+                    {{ value.replace('\n', '<br>')|safe }}
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="mb-4" style="text-align: center;">
+        <button id="deleteButton" class="btn btn-primary btn-lg" style="font-size: 1.3rem; padding: 1rem 2rem; display: inline-block; margin-left: 15px;" onclick="sendPostAndRedirect()">
+            删除当前分支
+        </button>
+    </div>
+    <a href="{{ url_for('home') }}">返回主页</a>
+    <script>
+        function showAlertAndRedirect(url) {
+            window.location.href = url; // 跳转到指定的 URL
+        }
+        function sendPostAndRedirect() {
+            // 创建一个新的 FormData 对象
+            var formData = new FormData();
+            // 添加需要发送的数据，例如可以添加一个 key-value 对
+            formData.append('action', 'button_click');
+
+            fetch(window.location.href, {
+                    method: 'POST',
+                    body: new FormData()
+                })
+            .then(response => {
+                    if (!response.ok) throw new Error('删除失败');
+                    window.location.href = "/"; // 成功后跳转
+                })
+            .catch(error => {
+                    console.error('Error:', error);
+                    alert('操作失败，请重试');
+                });
+        }
+    </script>
+{% endblock %}

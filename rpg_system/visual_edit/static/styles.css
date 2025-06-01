@@ -1,0 +1,138 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    margin: 0 1rem;
+    text-decoration: none;
+}
+
+main {
+    padding: 2rem;
+}
+
+div > div {
+    margin-bottom: 15px; /* 增加按钮之间的垂直间距 */
+}
+
+.container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.dialogue-container {
+    border: 2px solid #4a5568;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    background: #f7fafc;
+    min-height: 150px;
+}
+
+.content {
+    color: #2d3748;
+    line-height: 1.6;
+}
+
+.player-message {
+    text-align: right;
+    margin: 10px 0;
+    padding: 12px;
+    background: #ebf8ff;
+    border-radius: 8px;
+    display: inline-block;
+    max-width: 80%;
+    float: right;
+    clear: both;
+}
+
+.npc-message {
+    text-align: left;
+    margin: 10px 0;
+    padding: 12px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    max-width: 80%;
+    clear: both;
+}
+
+.next-button {
+    background: #4299e1;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+    margin: 10px 0;
+}
+
+.next-button:hover {
+    background: #3182ce;
+}
+
+.scene-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.scene-button {
+    background: #48bb78;
+    text-align: left;
+    padding: 12px;
+    border-radius: 6px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.scene-button:hover {
+    background: #38a169;
+}
+
+.home-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: #4299e1;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.scene-title {
+    color: #2d3748;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 10px;
+}
+.narrate-message {
+    color: #4a5568;
+    font-style: italic;
+    text-align: center;
+    margin: 15px auto;
+    padding: 10px;
+    max-width: 70%;
+    border-left: 3px solid #cbd5e0;
+    background: #f7fafc;
+}
+
+.scene-location {
+    color: #4a5568;
+    margin-top: 5px;
+}

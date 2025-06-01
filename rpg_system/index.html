@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>LLM-based Interactive Drama</title>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "KaiTi", "STKaiti", serif;
+            overflow: hidden;
+            background-color: #f0f0f0;
+        }
+        
+        #gameContainer {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #historyPanel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 350px;
+            height: 450px;
+            background-color: rgba(255, 215, 0, 0.9);
+            padding: 15px;
+            font-family: "KaiTi", "STKaiti", serif;
+            font-size: 16px;
+            line-height: 1.5;
+            border: 2px solid #800080;
+            border-radius: 10px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        #inputArea {
+            position: absolute;
+            bottom: 100px;
+            right: 20px;
+            width: 350px;
+            height: 300px;
+            background-color: rgba(144, 238, 144, 0.9);
+            padding: 15px;
+            border: 2px solid #800080;
+            border-radius: 10px;
+            z-index: 1000;
+        }
+
+        #inputText {
+            width: 100%;
+            height: 100%;
+            font-family: "KaiTi", "STKaiti", serif;
+            font-size: 16px;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #800080;
+            border-radius: 5px;
+            resize: none;
+        }
+
+        #historyPanel::-webkit-scrollbar {
+            width: 10px;
+        }
+        #historyPanel::-webkit-scrollbar-track {
+            background: rgba(255, 215, 0, 0.5);
+            border-radius: 5px;
+        }
+        #historyPanel::-webkit-scrollbar-thumb {
+            background: #800080;
+            border-radius: 5px;
+        }
+        #historyPanel div {
+            margin-bottom: 8px;
+            padding: 5px;
+            border-bottom: 1px solid rgba(128, 0, 128, 0.2);
+        }
+        #historyPanel div:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <div id="historyPanel"></div>
+        <div id="inputArea">
+            <textarea id="inputText" placeholder="请输入对话内容..."></textarea>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
