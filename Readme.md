@@ -1,6 +1,6 @@
 This is the official implementation of the paper "ECHIDNA: Enhancing Player Engagement via Pre-Explored Branches and Dynamic Role Interaction".
 
-Echidna, Explore branCHes the story dID'nt narrate.
+Echidna, Explore branCHes the story dID'nt NArrate.
 
 ---
 We will upload official demo video before 6/8 and offer complete instructions based on the _volcengine_ soon.
