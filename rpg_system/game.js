@@ -79,7 +79,7 @@ class MainScene extends Phaser.Scene {
 
     preload() {
         // 预加载所有角色图片
-        const characters = ['三月七', '彦卿', '云璃', '梦茗', '斯科特', '花园', '茶馆']; // 替换为实际的角色名
+        const characters = ['march7', 'yanqin', 'yunli', 'mengming', 'scott', 'garden', 'teahouse']; // 替换为实际的角色名
         characters.forEach(char => {
             this.load.image(char.toLowerCase(), `./assets/${char.toLowerCase()}.png`);
         });
