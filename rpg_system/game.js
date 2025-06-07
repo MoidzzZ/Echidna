@@ -3,6 +3,14 @@ let gamePlotNodes = {};
 let game;
 let characters;
 
+const charKeyMap = {
+    '三月七': 'march7',
+    '彦卿': 'yanqing',
+    '云璃': 'yunli',
+    '梦茗': 'mengming',
+    '斯科特': 'scott'
+}
+
 async function loadGameData() {
   try {
     const response = await fetch('./assets/plot_0524.json');
@@ -79,8 +87,11 @@ class MainScene extends Phaser.Scene {
 
     preload() {
         // 预加载所有角色图片
-        const characters = ['march7', 'yanqin', 'yunli', 'mengming', 'scott', 'garden', 'teahouse']; // 替换为实际的角色名
-        characters.forEach(char => {
+        const locations = ['garden', 'teahouse'];
+        locations.forEach(key => {
+            this.load.image(key.toLowerCase(), `./assets/${key.toLowerCase()}.png`);
+        });
+        Object.values(charKeyMap).forEach(char => {
             this.load.image(char.toLowerCase(), `./assets/${char.toLowerCase()}.png`);
         });
     }
@@ -88,7 +99,7 @@ class MainScene extends Phaser.Scene {
     create() {
         // 初始化背景图片
         this.background = null; // 用于存储背景图片对象
-        this.updateBackground('花园'); // 初始加载背景图片
+        this.updateBackground('graden'); // 初始加载背景图片
 
         // 创建角色按钮
         this.characterButtons = this.add.group();
@@ -117,10 +128,10 @@ class MainScene extends Phaser.Scene {
 
         // 更新背景图片
         if(plotIndex[0]>3){
-            this.updateBackground('茶馆'); // 根据需要更新背景图片
+            this.updateBackground('teahouse'); // 根据需要更新背景图片
         }
         else{
-            this.updateBackground('花园'); // 根据需要更新背景图片
+            this.updateBackground('garden'); // 根据需要更新背景图片
         }
 
         // 创建新按钮（复用原来的点击逻辑）
@@ -139,7 +150,7 @@ class MainScene extends Phaser.Scene {
             goldBorder.setDepth(0); // 设置边框的深度与圆形相同
 
             // 创建图片对象
-            const image = this.add.image(characterInfo[char].x, characterInfo[char].y, char.toLowerCase())
+            const image = this.add.image(characterInfo[char].x, characterInfo[char].y, charKeyMap[char])
                 .setScale(0.8) // 根据图片大小调整缩放比例
                 .setDepth(1); // 设置图片的深度较高，确保在圆形上方
 
@@ -338,7 +349,7 @@ function updateDialogWithDelay(char_resp, index = 0) {
     // 使用 setTimeout 模拟延迟，并递归调用自身
     setTimeout(() => {
         updateDialogWithDelay(char_resp, index + 1); // 处理下一条对话
-    }, 100); // 延迟 100 毫秒
+    }, 1000); // 延迟 100 毫秒
 }
 
 async function sendRequest(plotIndex) {

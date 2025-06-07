@@ -1,10 +1,10 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from agent import GM, Character
-from langchain_openai import ChatOpenAI
 import json
 import time
 from logger_config import setup_logger
+from extra.config import *
 
 # 获取当前本地时间
 current_time = time.localtime()
@@ -12,37 +12,17 @@ current_time = time.localtime()
 formatted_time = time.strftime("%m%d%H%M", current_time)
 logger = setup_logger(formatted_time)
 
-
-llm = ChatOpenAI(
-    model='ep-',
-    temperature=0,
-    max_tokens=None,
-    timeout=None,
-    max_retries=2,
-    api_key="",
-    base_url="",
-)
-
-model_pools = [
-    "ep-",
-    "ep-",
-    "ep-",
-    "ep-",
-    "ep-",
-]
-
-
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 # 初始化一个game_manager(mode设为guide触发GM_guide)
-with open("./assets/deleted_new_game_plot_nodes.json", 'r', encoding='utf-8') as f:
+with open("./assets/plot_0524.json", 'r', encoding='utf-8') as f:
     outline = json.load(f)
 characters = {}
 for name, description in outline['characters'].items():
     characters[name] = Character(name, description)
 
-GAME = GM(llm, model_pools, characters, mode="goal")
+GAME = GM(characters, mode="goal")
 GAME.load_outline(outline)
 GAME.init_game()
 
@@ -127,7 +107,7 @@ def mixed_chat():
     })
 
 
-@app.route("/char_info", methods=["POST"])  # ✅ 改成 POST
+@app.route("/char_info", methods=["POST"])
 def char_info():
     data = request.get_json()
     character_name = data.get("character")

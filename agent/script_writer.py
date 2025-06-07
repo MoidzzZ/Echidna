@@ -15,10 +15,9 @@ import copy
 from collections import deque
 from datetime import datetime
 from agent import GM
+from extra.config import *
 
 logger = logging.getLogger('GlobalLogger')
-api_key = ""
-base_url = ""
 
 
 class PlotChain:
@@ -60,18 +59,18 @@ def get_llm(model):
 
 # 直接输出分支状的大纲
 class ScriptWriter:
-    def __init__(self, original_outline, r1_api, personality_api_pools, fork_index, todo_fork_num):
+    def __init__(self, original_outline, fork_index, todo_fork_num):
         self.main_character = list(original_outline['characters'].keys())[0]
 
         self.original_plot_chain = original_outline['plot_chain']
         self.original_char_info = original_outline['characters']
 
         self.personality_api_pools = {
-            "开拓": personality_api_pools[0],
-            "同谐": personality_api_pools[1],
-            "毁灭": personality_api_pools[2],
-            "虚无": personality_api_pools[3],
-            "欢愉": personality_api_pools[4],
+            "开拓": model_pools[0],
+            "同谐": model_pools[1],
+            "毁灭": model_pools[2],
+            "虚无": model_pools[3],
+            "欢愉": model_pools[4],
         }
 
         self.vp = VirtualPlayer(self.main_character, get_llm(self.personality_api_pools['开拓']))
@@ -96,17 +95,17 @@ class ScriptWriter:
         self.embedding_model = HuggingFaceEmbeddings(model_name='BAAI/bge-large-zh-v1.5')
         self.queue = deque()
 
-        self.llm = get_llm(r1_api)
+        self.llm = get_llm(r1)
 
         self.gm = None
         self.current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-    def make_stream(self, llm, model_pools, curr_plot_chain):
+    def make_stream(self, curr_plot_chain):
         character_dict = {}
         for character, description in self.original_char_info.items():
             character_dict[character] = Character(character, description)
 
-        self.gm = GM(llm, model_pools, character_dict)
+        self.gm = GM(character_dict)
 
         save_dir = f"./{self.current_time}/{curr_plot_chain.info}"
 
@@ -178,7 +177,7 @@ class ScriptWriter:
                 if new_fork_num > 0:
                     self.queue.append(new_plot_chain)
 
-    def create_branches(self, llm, model_pools):
+    def create_branches(self):
         self.queue.append(self.outline['plot_chains'][0])
 
         while len(self.queue) > 0:
@@ -189,7 +188,7 @@ class ScriptWriter:
 
             curr_plot_chain.check_fork_point()
 
-            to_modify_continue_plot_info = self.make_stream(llm, model_pools, curr_plot_chain)
+            to_modify_continue_plot_info = self.make_stream(curr_plot_chain)
             # 按fork_point使用json读取本地的流，让VP对每个分支点提出四种性格偏置的行为
             to_modify_continue_plot_info = self.make_behavior(curr_plot_chain, to_modify_continue_plot_info)
 

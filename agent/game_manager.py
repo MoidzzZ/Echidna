@@ -7,10 +7,9 @@ import logging
 from datetime import datetime
 import random
 from extra.utils import *
+from extra.config import *
 
 logger = logging.getLogger('GlobalLogger')
-api_key = ""
-base_url = ""
 
 
 def set_llm(model, temperature=0.7):
@@ -27,17 +26,17 @@ def set_llm(model, temperature=0.7):
 
 
 class GM:
-    def __init__(self, gm_llm, npc_api_pools, characters, mode="goal"):
-        self.gm_llm = gm_llm
+    def __init__(self, characters, mode="goal"):
+        self.gm_llm = set_llm(v3, temperature=0)
 
-        self.npc_api_pools = npc_api_pools
+        self.npc_pools = model_pools
         # 对于每一个性格也指定一个npc_api
-        self.personality_api_pools = {
-            "开拓": self.npc_api_pools[0],
-            "同谐": self.npc_api_pools[1],
-            "毁灭": self.npc_api_pools[2],
-            "虚无": self.npc_api_pools[3],
-            "欢愉": self.npc_api_pools[4],
+        self.personality_pools = {
+            "开拓": self.npc_pools[0],
+            "同谐": self.npc_pools[1],
+            "毁灭": self.npc_pools[2],
+            "虚无": self.npc_pools[3],
+            "欢愉": self.npc_pools[4],
         }
 
         self.characters = characters
@@ -85,7 +84,7 @@ class GM:
             self.character_list.append(c)
 
         for i, c in enumerate(self.involved_characters):
-            c.set_llm(self.npc_api_pools[i])
+            c.set_llm(self.npc_pools[i])
             c.set_behavior(characters_behavior[c.name])
             c.set_goal(self.goal)
             c.set_guidance("")
@@ -350,7 +349,7 @@ class GM:
                         score = future.result()
                         personality = futures[future]
                         results[personality] = score
-                    except Exception as exc:
+                    except Exception:
                         personality = futures[future]
                         results[personality] = 0
 
@@ -386,8 +385,8 @@ class GM:
                 return new_index, char_resp
         return {}, char_resp
 
-    def step_check(self, period=3, max_step=12):
-        if self.step % period == 0:
+    def step_check(self, period=2, min_step=4, max_step=12):
+        if self.step >= min_step and self.step % period == 0:
             if self.llm_plot_complete_check_and_guide():
                 new_index = self.get_next_index()
                 return new_index, "GM", "goal satisfied, plot complete"
@@ -480,7 +479,7 @@ class GM:
                 character.set_guidance(guidance_dict[character.name])
 
     def mixed_plot_score(self, personality):
-        api = self.personality_api_pools[personality]
+        api = self.personality_pools[personality]
         score_llm = set_llm(api, temperature=0)
 
         history = format_history(self.plot_history)

@@ -9,8 +9,7 @@ def setup_logger(time):
     # 防止重复添加处理器
     if not logger.handlers:
         # 创建文件处理器
-
-        file_handler = logging.FileHandler(f'../rpg_system/log/experiment_{time}.log', mode='w', encoding='utf-8')
+        file_handler = logging.FileHandler(f'./log/experiment_{time}.log', mode='w', encoding='utf-8')
         file_handler.setLevel(logging.INFO)
 
         # 定义日志格式
