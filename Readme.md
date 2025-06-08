@@ -3,15 +3,15 @@ This is the official implementation of the paper "ECHIDNA: Enhancing Player Enga
 Echidna, Explore branCHes the story dID'nt NArrate.
 
 ---
-We will upload official demo video before 6/8 and offer complete instructions based on the _volcengine_ soon.
+Our demo can be found in ./demo.
 
-To run the code, you should set base_url and api_key in agent/script_writer.py and agent/gama_manager.py, while you should set model_pools in branch_system/branch.ipynb and rpg_system/app.py.  
+To run the code, you should edit extra/config.py, we use deepseek api based on volcengine.  
 
 **Notice**: you could play directly based on the assets/plot_0524.json without generating a new plot tree, see the last step.
 
-First, You could run branch_system/branch.ipynb to generate plotchains, and run rpg_system/convert.ipynb to convert plotchains to a plot tree.
+First, You could run branch_system/branch.ipynb to generate plot-chains.
 
-Then, you could run rpg_system/visual_edit/delete.py to visualize and edit the plot tree.
+Then, you could run rpg_system/convert.ipynb to convert plotchains to a plot tree, and run rpg_system/visual_edit/delete.py to visualize and edit the plot tree.
 
-Finally, you could run rpg_system/app.py to run the game, and open index.html to play.
+Finally, you could run rpg_system/app.py to start, and open index.html to play.
 
