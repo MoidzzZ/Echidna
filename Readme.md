@@ -1,4 +1,4 @@
-This is the official implementation of the paper "ECHIDNA: Enhancing Player Engagement via Pre-Explored Branches and Dynamic Role Interaction".
+This is the official implementation of the paper "Explore Branches the Story didn't Narrate: An LLM Solution".
 
 Echidna, Explore branCHes the story dID'nt NArrate.
 
