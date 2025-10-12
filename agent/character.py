@@ -23,17 +23,6 @@ class Character:
 
         self.guidance = ""
 
-    def set_llm(self, model):
-        self.llm = ChatOpenAI(
-            model=model,
-            temperature=0.5,
-            top_p=0.5,
-            max_tokens=None,
-            timeout=None,
-            max_retries=2,
-            api_key="ab33d003-082d-419f-b750-48c436280595",
-            base_url="https://ark.cn-beijing.volces.com/api/v3",
-        )
 
     def set_goal(self, goal):
         self.goal = goal
