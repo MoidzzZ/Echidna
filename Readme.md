@@ -1,4 +1,4 @@
-This is the official implementation of the paper "Explore Branches the Story didn't Narrate: An LLM Solution".
+This is the official implementation of the paper ["Explore Branches the Story didn't Narrate: An LLM Solution"](https://wordplay-workshop.github.io/pdfs/35.pdf).
 
 Echidna, Explore branCHes the story dID'nt NArrate.
 
